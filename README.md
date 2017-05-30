@@ -1,4 +1,4 @@
-# try-expr [![Build Status](https://travis-ci.org/JsCommunity/tr-expr.png?branch=master)](https://travis-ci.org/JsCommunity/tr-expr)
+# try-expr [![Build Status](https://travis-ci.org/JsCommunity/try-expr.png?branch=master)](https://travis-ci.org/JsCommunity/try-expr)
 
 > Try/catch as an expression with filtered catch clauses.
 
