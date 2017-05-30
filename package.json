@@ -9,6 +9,7 @@
     "conditional",
     "expression",
     "predicate",
+    "promise",
     "try"
   ],
   "homepage": "https://github.com/JsCommunity/try-expr",
