@@ -1,7 +1,10 @@
 const { hasOwnProperty } = Object.prototype
 const matchError = (predicate, error) => {
   if (typeof predicate === 'function') {
-    return predicate.prototype instanceof Error
+    return (
+      predicate === Error ||
+      predicate.prototype instanceof Error
+    )
       ? error instanceof predicate
       : predicate(error)
   }
@@ -38,7 +41,7 @@ function dispatch (catchClauses, error) {
     }
 
     for (let j = 0; j < m; ++j) {
-      if (matchError(error, catchClause[j])) {
+      if (matchError(catchClause[j], error)) {
         return catchClause[m](error)
       }
     }
@@ -58,7 +61,7 @@ const tryExpr = fn => {
     try {
       return fn.apply(this, arguments)
     } catch (error) {
-      dispatch(catchClauses, arguments[0])
+      return dispatch(catchClauses, error)
     }
   }
   const catchClauses = exec.catchClauses = []
