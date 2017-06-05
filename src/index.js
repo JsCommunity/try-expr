@@ -52,18 +52,17 @@ function dispatch (catchClauses, error) {
 }
 
 const tryExpr = fn => {
-  function exec () {
+  let exec = fn === undefined
     // if no try function passed, simply match clauses with the first
     // arg
-    if (fn === undefined) {
-      return dispatch(catchClauses, arguments[0])
+    ? error => dispatch(catchClauses, error)
+    : function () {
+      try {
+        return fn.apply(this, arguments)
+      } catch (error) {
+        return dispatch(catchClauses, error)
+      }
     }
-    try {
-      return fn.apply(this, arguments)
-    } catch (error) {
-      return dispatch(catchClauses, error)
-    }
-  }
   const catchClauses = exec.catchClauses = []
   exec.caught = exec.catch = addCatchClause
   return exec
