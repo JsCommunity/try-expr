@@ -26,13 +26,13 @@ const data = tryExpr(
 Ideal with promises:
 
 ```js
-readFile('./data.json').then(
-  tryExpr(
-    JSON.parse
-  ).catch(SyntaxError, error => {
-    return null
-  })
-).then(data => {
+const safeParseJson = tryExpr(
+  JSON.parse
+).catch(SyntaxError, error => {
+  return null
+})
+
+readFile('./data.json').then(safeParseJson).then(data => {
   // do something with the data
 })
 ```
