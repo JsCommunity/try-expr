@@ -12,8 +12,9 @@ const exceptionOf = fn => {
   }
 }
 const identity = value => value
-const throwFn = value => () => {
-  throw value
+const rejectFn = reason => () => Promise.reject(reason)
+const throwFn = error => () => {
+  throw error
 }
 
 describe('tryExpr(fn)', () => {
@@ -37,6 +38,12 @@ describe('tryExpr(fn)', () => {
       tryExpr(throwFn('foo')).catch(identity)()
     ).toBe('foo')
   })
+
+  it('catches rejections', () =>
+    tryExpr(rejectFn('foo')).catch(identity)().then(value =>
+      expect(value).toBe('foo')
+    )
+  )
 
   it('catches errors matching a predicate', () => {
     const predicate = value => value === 'foo'

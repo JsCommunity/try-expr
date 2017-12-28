@@ -52,13 +52,19 @@ function dispatch (catchClauses, error) {
 }
 
 const tryExpr = fn => {
-  let exec = fn === undefined
+  const boundDispatch = error => dispatch(catchClauses, error)
+
+  const exec = fn === undefined
     // if no try function passed, simply match clauses with the first
     // arg
-    ? error => dispatch(catchClauses, error)
+    ? boundDispatch
     : function () {
       try {
-        return fn.apply(this, arguments)
+        const result = fn.apply(this, arguments)
+        let then
+        return (result != null && typeof (then = result.then) === 'function')
+          ? then.call(result, undefined, boundDispatch)
+          : result
       } catch (error) {
         return dispatch(catchClauses, error)
       }

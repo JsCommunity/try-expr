@@ -37,6 +37,19 @@ readFile('./data.json').then(safeParseJson).then(data => {
 })
 ```
 
+Works with async functions:
+
+```js
+const safeReadFile = tryExpr(
+    readFile
+).catch({ code: 'ENOENT'}, error => {
+  return ''
+})
+
+safeReadFile('./data.json').then(data => {
+  // do something with the data
+})
+
 If no function is passed to `tryExpr()`, the first param of the chain will be considered as the error to match `catch` clauses with, which makes it handy with `Promise#catch()`:
 
 ```js
