@@ -1,6 +1,6 @@
 {
   "name": "try-expr",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "ISC",
   "description": "Try/catch as an expression with filtered catch clauses.",
   "keywords": [
